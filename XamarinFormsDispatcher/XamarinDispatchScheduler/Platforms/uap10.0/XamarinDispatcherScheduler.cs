@@ -31,6 +31,11 @@ namespace System.Reactive.Concurrency
             _dispatchScheduler = dispatchScheduler;
         }
 
+        public XamarinDispatcherScheduler(CoreDispatcher dispatcher)
+        {
+            _dispatchScheduler = new CoreDispatcherScheduler(dispatcher);
+        }
+
         public static void Init()
         {
             try

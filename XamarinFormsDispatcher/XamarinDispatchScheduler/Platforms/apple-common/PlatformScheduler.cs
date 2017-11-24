@@ -22,6 +22,7 @@ namespace XamarinDispatchScheduler
             return Disposable.Create(() =>
             {
                 timer.Invalidate();
+                timer.Dispose();
             });
         }
 
@@ -39,6 +40,7 @@ namespace XamarinDispatchScheduler
             return Disposable.Create(() =>
             {
                 timer.Invalidate();
+                timer.Dispose();
             });
         }
 

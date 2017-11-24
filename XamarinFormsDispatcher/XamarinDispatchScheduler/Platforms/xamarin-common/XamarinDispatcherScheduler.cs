@@ -16,23 +16,14 @@ namespace System.Reactive.Concurrency
         }
          
 
-        public static IScheduler Current
+        public static XamarinDispatcherScheduler Current
         {
             get
             {
                 return _scheduler.Value;
             }
-        }
+        } 
 
-
-        /// <summary>
-        /// Schedules an action to be executed on the dispatcher.
-        /// </summary>
-        /// <typeparam name="TState">The type of the state passed to the scheduled action.</typeparam>
-        /// <param name="state">State passed to the action to be executed.</param>
-        /// <param name="action">Action to be executed.</param>
-        /// <returns>The disposable object used to cancel the scheduled action (best effort).</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         public override IDisposable Schedule<TState>(TState state, Func<IScheduler, TState, IDisposable> action)
         {
             if (action == null)
@@ -50,15 +41,6 @@ namespace System.Reactive.Concurrency
             return d;
         }
 
-        /// <summary>
-        /// Schedules an action to be executed after <paramref name="dueTime"/> on the dispatcher, using a <see cref="Windows.UI.Xaml.DispatcherTimer"/> object.
-        /// </summary>
-        /// <typeparam name="TState">The type of the state passed to the scheduled action.</typeparam>
-        /// <param name="state">State passed to the action to be executed.</param>
-        /// <param name="action">Action to be executed.</param>
-        /// <param name="dueTime">Relative time after which to execute the action.</param>
-        /// <returns>The disposable object used to cancel the scheduled action (best effort).</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         public override IDisposable Schedule<TState>(TState state, TimeSpan dueTime, Func<IScheduler, TState, IDisposable> action)
         {
             if (action == null)
@@ -76,14 +58,13 @@ namespace System.Reactive.Concurrency
         private IDisposable ScheduleSlow<TState>(TState state, TimeSpan dueTime, Func<IScheduler, TState, IDisposable> action)
         {
             var d = new MultipleAssignmentDisposable();
-            SingleAssignmentDisposable disposable = new SingleAssignmentDisposable();
             IDisposable timer = null;
 
             timer =
                 PlatformScheduler.StartTimer(dueTime,
                     () =>
                     {
-                        if (!disposable.IsDisposed)
+                        if (!d.IsDisposed)
                         { 
                             try
                             {
@@ -97,7 +78,7 @@ namespace System.Reactive.Concurrency
                         } 
                     });
 
-            return new CompositeDisposable(
+            d.Disposable = new CompositeDisposable(
                 d,
                 timer,
                 Disposable.Create(() =>
@@ -105,18 +86,11 @@ namespace System.Reactive.Concurrency
                     action = (_, __) => Disposable.Empty;
                 })
             );
+
+            return d;
         }
 
-        /// <summary>
-        /// Schedules a periodic piece of work on the dispatcher, using a <see cref="Windows.UI.Xaml.DispatcherTimer"/> object.
-        /// </summary>
-        /// <typeparam name="TState">The type of the state passed to the scheduled action.</typeparam>
-        /// <param name="state">Initial state passed to the action upon the first iteration.</param>
-        /// <param name="period">Period for running the work periodically.</param>
-        /// <param name="action">Action to be executed, potentially updating the state.</param>
-        /// <returns>The disposable object used to cancel the scheduled recurring action (best effort).</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="period"/> is less than <see cref="TimeSpan.Zero"/>.</exception>
+
         public IDisposable SchedulePeriodic<TState>(TState state, TimeSpan period, Func<TState, TState> action)
         {
             if (period < TimeSpan.Zero)
