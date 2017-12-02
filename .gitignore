@@ -263,3 +263,10 @@ __pycache__/
 
 #Android Build files
 XamarinDispatchScheduler.Tests.Android/t/
+
+#build Tools
+/tools/*
+!/tools/Cake
+!/tools/Cake/*
+!/tools/nuget
+!/tools/nuget/*

@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{272FF237-109D-4AC6-AD83-4ECB091D9214}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		build.cake = build.cake
+		build.cmd = build.cmd
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
