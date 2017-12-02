@@ -38,11 +38,11 @@ namespace XamarinDispatchScheduler
             },
             (long)interval.TotalMilliseconds);
 
-           return 
-                Disposable.Create(() =>
-                {
-                    Interlocked.Exchange(ref handler, null)?.Dispose();
-                });
+            return
+                 Disposable.Create(() =>
+                 {
+                     Interlocked.Exchange(ref handler, null)?.Dispose();
+                 });
         }
 
 
@@ -73,6 +73,11 @@ namespace XamarinDispatchScheduler
                  {
                      Interlocked.Exchange(ref handler, null)?.Dispose();
                  });
+        }
+
+        public static bool OnMainThread()
+        {
+            return Looper.MyLooper() == Looper.MainLooper;
         }
     }
 }

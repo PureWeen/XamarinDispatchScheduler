@@ -18,7 +18,7 @@ namespace XamarinDispatchScheduler
                 callback();
             });
 
-            NSRunLoop.Main.AddTimer(timer, NSRunLoopMode.Common);            
+            NSRunLoop.Main.AddTimer(timer, NSRunLoopMode.Common);
             return Disposable.Create(() =>
             {
                 timer.Invalidate();
@@ -47,6 +47,11 @@ namespace XamarinDispatchScheduler
         public static void BeginInvokeOnMainThread(Action action)
         {
             NSRunLoop.Main.BeginInvokeOnMainThread(action.Invoke);
+        }
+
+        public static bool OnMainThread()
+        {
+            return NSThread.Current.IsMainThread;
         }
     }
 }

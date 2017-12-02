@@ -14,8 +14,12 @@ namespace System.Reactive.Concurrency
             {
                 throw new Exception("Please install nuget into platform project");
             }
-        } 
+        }
 
+        public static void Init()
+        {
+            throw new Exception("Please install nuget into platform project");
+        }
 
         public override IDisposable Schedule<TState>(TState state, TimeSpan dueTime, Func<IScheduler, TState, IDisposable> action)
         {
@@ -23,6 +27,11 @@ namespace System.Reactive.Concurrency
         }
 
         public IDisposable SchedulePeriodic<TState>(TState state, TimeSpan period, Func<TState, TState> action)
+        {
+            throw new Exception("Please install nuget into platform project");
+        }
+
+        public static bool OnMainThread()
         {
             throw new Exception("Please install nuget into platform project");
         }

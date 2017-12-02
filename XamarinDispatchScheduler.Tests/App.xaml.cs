@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Text;
 
 using Xamarin.Forms;
@@ -17,9 +18,10 @@ namespace XamarinDispatchScheduler.Tests
 		}
 
 		protected override void OnStart ()
-		{
-			// Handle when your app starts
-		}
+        {
+            XamarinDispatcherScheduler.Init();
+            // Handle when your app starts
+        }
 
 		protected override void OnSleep ()
 		{

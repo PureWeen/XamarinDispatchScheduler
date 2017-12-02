@@ -14,7 +14,14 @@ namespace System.Reactive.Concurrency
         {
             _scheduler = new Lazy<XamarinDispatcherScheduler>(() => new XamarinDispatcherScheduler());
         }
-         
+
+
+        //this is really only valid for UWP currently
+        public static void Init()
+        {
+            
+        }
+
 
         public static XamarinDispatcherScheduler Current
         {
@@ -22,7 +29,13 @@ namespace System.Reactive.Concurrency
             {
                 return _scheduler.Value;
             }
-        } 
+        }
+
+        public static bool OnMainThread()
+        {
+            return PlatformScheduler.OnMainThread();
+        }
+
 
         public override IDisposable Schedule<TState>(TState state, Func<IScheduler, TState, IDisposable> action)
         {
@@ -65,7 +78,7 @@ namespace System.Reactive.Concurrency
                     () =>
                     {
                         if (!d.IsDisposed)
-                        { 
+                        {
                             try
                             {
                                 d.Disposable = action(this, state);
@@ -74,8 +87,8 @@ namespace System.Reactive.Concurrency
                             {
                                 action = null;
                                 timer.Dispose();
-                            } 
-                        } 
+                            }
+                        }
                     });
 
             d.Disposable = new CompositeDisposable(

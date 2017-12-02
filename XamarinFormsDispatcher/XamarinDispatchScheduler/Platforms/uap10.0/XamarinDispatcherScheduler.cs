@@ -11,20 +11,20 @@ namespace System.Reactive.Concurrency
     {
         static XamarinDispatcherScheduler _scheduler;
         CoreDispatcherScheduler _dispatchScheduler;
-         
+
 
         public static XamarinDispatcherScheduler Current
         {
             get
             {
-                if(_scheduler == null)
+                if (_scheduler == null)
                 {
                     Init();
                 }
 
                 return _scheduler;
             }
-        } 
+        }
 
         public XamarinDispatcherScheduler(CoreDispatcherScheduler dispatchScheduler)
         {
@@ -35,6 +35,7 @@ namespace System.Reactive.Concurrency
         {
             _dispatchScheduler = new CoreDispatcherScheduler(dispatcher);
         }
+
 
         public static void Init()
         {
@@ -47,14 +48,24 @@ namespace System.Reactive.Concurrency
                 throw new InvalidOperationException("First use of scheduler on UWP has to be off main thread so the dispatch scheduler can initialize", exc);
             }
         }
+
         public static void Init(CoreDispatcherScheduler coreDispatcherScheduler)
         {
-             _scheduler = new XamarinDispatcherScheduler(coreDispatcherScheduler);
+            _scheduler = new XamarinDispatcherScheduler(coreDispatcherScheduler);
         }
 
         public static void Init(CoreDispatcher coreDispatcher)
         {
             _scheduler = new XamarinDispatcherScheduler(new CoreDispatcherScheduler(coreDispatcher));
+        }
+
+        public static bool OnMainThread()
+        {
+            return 
+                _scheduler
+                    ._dispatchScheduler
+                    .Dispatcher
+                    .HasThreadAccess;
         }
 
 

@@ -10,9 +10,7 @@ using Xamarin.Forms;
 namespace XamarinDispatchScheduler.Tests
 {
     public partial class MainPage : ContentPage
-    {
-        public static Func<bool> OnMainThread;
-
+    { 
         public MainPage()
         {
             InitializeComponent();
@@ -26,7 +24,7 @@ namespace XamarinDispatchScheduler.Tests
                 .Timer(TimeSpan.FromSeconds(2))
                 .Do(_ =>
                 {
-                    if (OnMainThread())
+                    if (XamarinDispatcherScheduler.OnMainThread())
                     {
                         throw new Exception("Your test needs to be better");
                     }
@@ -34,7 +32,7 @@ namespace XamarinDispatchScheduler.Tests
                 .ObserveOn(XamarinDispatcherScheduler.Current)
                 .Subscribe(_ =>
                 {
-                    if (!OnMainThread())
+                    if (!XamarinDispatcherScheduler.OnMainThread())
                     {
                         throw new Exception("Scheduler fail");
                     }
