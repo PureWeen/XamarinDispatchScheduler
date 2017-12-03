@@ -85,8 +85,8 @@
       <Project>{2cfd040b-dc2b-4fce-951c-3d33c68c998b}</Project>
       <Name>XamarinDispatchScheduler.Tests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XamarinFormsDispatcher\XamarinDispatchScheduler\XamarinDispatchScheduler.csproj">
-      <Project>{e19e6e50-630e-4fbd-aec4-a69b4adead68}</Project>
+    <ProjectReference Include="..\XamarinDispatchScheduler\XamarinDispatchScheduler.csproj">
+      <Project>{62fcf2bc-eb60-47b3-a23f-9da86fdcb182}</Project>
       <Name>XamarinDispatchScheduler</Name>
     </ProjectReference>
   </ItemGroup>

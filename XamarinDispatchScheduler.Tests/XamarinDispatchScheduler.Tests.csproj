@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\XamarinFormsDispatcher\XamarinDispatchScheduler\XamarinDispatchScheduler.csproj" />
+    <ProjectReference Include="..\XamarinDispatchScheduler\XamarinDispatchScheduler.csproj" />
   </ItemGroup>
 
   <ItemGroup>
