@@ -20,13 +20,6 @@ namespace Xamarin.DispatchScheduler
             _platform = platform;
         }
 
-        //this is really only valid for UWP currently
-        public static void Init()
-        {
-            
-        }
-
-
         public static IScheduler Current
         {
             get

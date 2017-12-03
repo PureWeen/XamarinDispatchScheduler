@@ -21,56 +21,61 @@ namespace XamarinDispatchScheduler.Tests
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Observable
-                .Timer(TimeSpan.FromSeconds(2))
-                .Do(_ =>
-                {
-                    if (XamarinDispatcherScheduler.OnMainThread())
-                    {
-                        throw new Exception("Your test needs to be better");
-                    }
-                })
-                .ObserveOn(XamarinDispatcherScheduler.Current)
-                .Subscribe(_ =>
-                {
-                    if (!XamarinDispatcherScheduler.OnMainThread())
-                    {
-                        throw new Exception("Scheduler fail");
-                    }
-                    lblChangeMe.Text = "Changed";
-                });
 
-            var periodic =
-                XamarinDispatcherScheduler
-                    .Current
-                    .SchedulePeriodic(TimeSpan.FromSeconds(2),
-                    () =>
+            //Create observable from task pool just to ensure scheduler works off main thread
+            TaskPoolScheduler.Default.Schedule(() =>
+            {
+                Observable
+                    .Timer(TimeSpan.FromSeconds(2))
+                    .Do(_ =>
                     {
-                        lblTimer.Text = DateTime.Now.TimeOfDay.ToString();
+                        if (XamarinDispatcherScheduler.OnMainThread())
+                        {
+                            throw new Exception("Your test needs to be better");
+                        }
+                    })
+                    .ObserveOn(XamarinDispatcherScheduler.Current)
+                    .Subscribe(_ =>
+                    {
+                        if (!XamarinDispatcherScheduler.OnMainThread())
+                        {
+                            throw new Exception("Scheduler fail");
+                        }
+                        lblChangeMe.Text = "Changed";
                     });
 
-            btnStop.Clicked += (_, __) => periodic.Dispose();
+                var periodic =
+                    XamarinDispatcherScheduler
+                        .Current
+                        .SchedulePeriodic(TimeSpan.FromSeconds(2),
+                        () =>
+                        {
+                            lblTimer.Text = DateTime.Now.TimeOfDay.ToString();
+                        });
 
-            //test cancellation
-            Observable
-               .Timer(TimeSpan.FromSeconds(2))
-                .ObserveOn(XamarinDispatcherScheduler.Current)
-                .Subscribe(_ =>
-                {
-                    throw new Exception("test");
-                })
-                .Dispose();
+                btnStop.Clicked += (_, __) => periodic.Dispose();
 
-            XamarinDispatcherScheduler.Current.Schedule(TimeSpan.FromSeconds(5), () =>
-            {
-                if (!String.IsNullOrWhiteSpace(lblSlowScheduler.Text))
+                //test cancellation
+                Observable
+                    .Timer(TimeSpan.FromSeconds(2))
+                    .ObserveOn(XamarinDispatcherScheduler.Current)
+                    .Subscribe(_ =>
+                    {
+                        throw new Exception("test");
+                    })
+                    .Dispose();
+
+                XamarinDispatcherScheduler.Current.Schedule(TimeSpan.FromSeconds(5), () =>
                 {
-                    throw new Exception("Scheduler ran more than once");
+                    if (!String.IsNullOrWhiteSpace(lblSlowScheduler.Text))
+                    {
+                        throw new Exception("Scheduler ran more than once");
+                    }
+
+                    lblSlowScheduler.Text = "slowly scheduled";
                 }
-
-                lblSlowScheduler.Text = "slowly scheduled";
-            }
-            );
+                );
+            });
         }
     }
 }

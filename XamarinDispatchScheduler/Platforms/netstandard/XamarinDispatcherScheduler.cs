@@ -14,11 +14,6 @@ namespace Xamarin.DispatchScheduler
             }
         }
 
-        public static void Init()
-        {
-            throw new Exception("Please install nuget into platform project");
-        }
-
         public override IDisposable Schedule<TState>(TState state, TimeSpan dueTime, Func<IScheduler, TState, IDisposable> action)
         {
             throw new Exception("Please install nuget into platform project");

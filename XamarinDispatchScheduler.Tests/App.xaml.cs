@@ -18,9 +18,7 @@ namespace XamarinDispatchScheduler.Tests
 		}
 
 		protected override void OnStart ()
-        {
-            XamarinDispatcherScheduler.Init();
-            // Handle when your app starts
+        { 
         }
 
 		protected override void OnSleep ()
