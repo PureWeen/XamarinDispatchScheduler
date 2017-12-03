@@ -6,7 +6,7 @@
     <PackageProjectUrl>https://github.com/PureWeen/XamarinDispatchScheduler</PackageProjectUrl>
     <Authors>Shane Neuville</Authors>
     <Owners>shaneneuville</Owners>
-    <PackageTags>Xamarin;Dispatcher;UIThread;System.Reactive;Rx.Net</PackageTags>
+    <PackageTags>Xamarin;Dispatcher;UIThread;System.Reactive;Rx.Net;Rx;Reactive</PackageTags>
     <PackageReleaseNotes>https://github.com/PureWeen/XamarinDispatchScheduler/releases</PackageReleaseNotes>
     <PackageId>Xamarin.DispatchScheduler</PackageId>
     <Title>
