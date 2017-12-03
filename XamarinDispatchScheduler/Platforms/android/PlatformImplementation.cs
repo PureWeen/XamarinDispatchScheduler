@@ -8,12 +8,12 @@ using System.Threading;
 using System.Threading.Tasks;
 
 //https://github.com/xamarin/Xamarin.Forms/blob/d3d59ee4f0b3098457e1debe8d7b03d0d0061a53/Xamarin.Forms.Platform.Android/Forms.cs
-namespace XamarinDispatchScheduler
+namespace Xamarin.DispatchScheduler
 {
-    public class PlatformScheduler
+    public class PlatformImplementation : IPlatformImplementation
     {
-        static Handler s_handler;
-        public static void BeginInvokeOnMainThread(Action action)
+        Handler s_handler;
+        public void BeginInvokeOnMainThread(Action action)
         {
             if (s_handler == null || s_handler.Looper != Looper.MainLooper)
             {
@@ -23,7 +23,7 @@ namespace XamarinDispatchScheduler
             s_handler.Post(action);
         }
 
-        public static IDisposable StartTimer(TimeSpan interval, Action callback)
+        public IDisposable StartTimer(TimeSpan interval, Action callback)
         {
             var handler = new Handler(Looper.MainLooper);
             handler.PostDelayed(() =>
@@ -46,12 +46,18 @@ namespace XamarinDispatchScheduler
         }
 
 
-        public static IDisposable StartInterval(TimeSpan interval, Action callback)
+        public IDisposable StartInterval(TimeSpan interval, Action callback)
         {
             SerialDisposable disposable = new SerialDisposable();
             StartInterval(interval, callback, disposable);
             return disposable;
         }
+
+        public bool OnMainThread()
+        {
+            return Looper.MyLooper() == Looper.MainLooper;
+        }
+
 
         static void StartInterval(TimeSpan interval, Action callback, SerialDisposable disposable)
         {
@@ -75,9 +81,5 @@ namespace XamarinDispatchScheduler
                  });
         }
 
-        public static bool OnMainThread()
-        {
-            return Looper.MyLooper() == Looper.MainLooper;
-        }
     }
 }

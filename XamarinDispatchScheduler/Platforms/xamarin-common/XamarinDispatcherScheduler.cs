@@ -1,20 +1,24 @@
 ﻿
+using System;
 using System.Reactive.Concurrency;
-using System.Reactive.Disposables;
-using System.Runtime.ExceptionServices;
-using System.Threading;
-using XamarinDispatchScheduler;
+using System.Reactive.Disposables; 
 
-namespace System.Reactive.Concurrency
+namespace Xamarin.DispatchScheduler
 {
     public sealed class XamarinDispatcherScheduler : LocalScheduler, ISchedulerPeriodic
     {
         static Lazy<XamarinDispatcherScheduler> _scheduler;
         static XamarinDispatcherScheduler()
         {
-            _scheduler = new Lazy<XamarinDispatcherScheduler>(() => new XamarinDispatcherScheduler());
+            _scheduler = new Lazy<XamarinDispatcherScheduler>(() => new XamarinDispatcherScheduler(new PlatformImplementation()));
         }
 
+        public IPlatformImplementation _platform;
+
+        public XamarinDispatcherScheduler(IPlatformImplementation platform)
+        {
+            _platform = platform;
+        }
 
         //this is really only valid for UWP currently
         public static void Init()
@@ -23,7 +27,7 @@ namespace System.Reactive.Concurrency
         }
 
 
-        public static XamarinDispatcherScheduler Current
+        public static IScheduler Current
         {
             get
             {
@@ -33,9 +37,11 @@ namespace System.Reactive.Concurrency
 
         public static bool OnMainThread()
         {
-            return PlatformScheduler.OnMainThread();
+            return _scheduler.Value.Platform.OnMainThread();
         }
 
+
+        public IPlatformImplementation Platform => _platform;
 
         public override IDisposable Schedule<TState>(TState state, Func<IScheduler, TState, IDisposable> action)
         {
@@ -43,7 +49,7 @@ namespace System.Reactive.Concurrency
                 throw new ArgumentNullException(nameof(action));
 
             var d = new SingleAssignmentDisposable();
-            PlatformScheduler.BeginInvokeOnMainThread(() =>
+            _scheduler.Value.Platform.BeginInvokeOnMainThread(() =>
             {
                 if (!d.IsDisposed)
                 {
@@ -74,7 +80,7 @@ namespace System.Reactive.Concurrency
             IDisposable timer = null;
 
             timer =
-                PlatformScheduler.StartTimer(dueTime,
+                _scheduler.Value.Platform.StartTimer(dueTime,
                     () =>
                     {
                         if (!d.IsDisposed)
@@ -112,7 +118,7 @@ namespace System.Reactive.Concurrency
                 throw new ArgumentNullException(nameof(action));
 
             var state1 = state;
-            return PlatformScheduler.StartInterval(period,
+            return _scheduler.Value.Platform.StartInterval(period,
             () =>
             {
                 state1 = action(state1);

@@ -36,7 +36,7 @@ var treatWarningsAsErrors = false;
 // Build configuration
 var local = BuildSystem.IsLocalBuild;
 var isPullRequest = AppVeyor.Environment.PullRequest.IsPullRequest;
-var isRepository = StringComparer.OrdinalIgnoreCase.Equals("akavache/akavache", AppVeyor.Environment.Repository.Name);
+var isRepository = StringComparer.OrdinalIgnoreCase.Equals("PureWeen/XamarinDispatchScheduler", AppVeyor.Environment.Repository.Name);
 
 var isDevelopBranch = StringComparer.OrdinalIgnoreCase.Equals("develop", AppVeyor.Environment.Repository.Branch);
 var isReleaseBranch = StringComparer.OrdinalIgnoreCase.Equals("master", AppVeyor.Environment.Repository.Branch);
@@ -57,7 +57,7 @@ var buildVersion = gitVersion.FullBuildMetaData;
 
 // Artifacts
 var artifactDirectory = "./artifacts/";
-var packageWhitelist = new[] { "XamarinDispatchScheduler" }; 
+var packageWhitelist = new[] { "Xamarin.DispatchScheduler" }; 
 
 // Macros
 Action Abort = () => { throw new Exception("a non-recoverable fatal error occurred."); };
@@ -67,7 +67,7 @@ Action Abort = () => { throw new Exception("a non-recoverable fatal error occurr
 ///////////////////////////////////////////////////////////////////////////////
 Setup((context) =>
 {
-    Information("Building version {0} of Akavache. (isTagged: {1}) Nuget Version {2}", informationalVersion, isTagged, nugetVersion);
+    Information("Building version {0} of XamarinDispatchScheduler. (isTagged: {1}) Nuget Version {2}", informationalVersion, isTagged, nugetVersion);
     CreateDirectory(artifactDirectory);
 });
 

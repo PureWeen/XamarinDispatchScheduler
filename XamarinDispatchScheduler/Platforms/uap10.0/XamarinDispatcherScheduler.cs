@@ -1,11 +1,12 @@
 ﻿
+using System;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using Windows.UI.Core;
 
-namespace System.Reactive.Concurrency
+namespace Xamarin.DispatchScheduler
 {
     public sealed class XamarinDispatcherScheduler : LocalScheduler, ISchedulerPeriodic
     {
@@ -13,7 +14,7 @@ namespace System.Reactive.Concurrency
         CoreDispatcherScheduler _dispatchScheduler;
 
 
-        public static XamarinDispatcherScheduler Current
+        public static IScheduler Current
         {
             get
             {
@@ -78,6 +79,6 @@ namespace System.Reactive.Concurrency
         public IDisposable SchedulePeriodic<TState>(TState state, TimeSpan period, Func<TState, TState> action)
         {
             return _dispatchScheduler.SchedulePeriodic(state, period, action);
-        }
+        } 
     }
 }

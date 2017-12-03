@@ -8,7 +8,8 @@
     <Authors>Shane Neuville</Authors>
     <Owners>shaneneuville</Owners>
     <PackageTags>Xamarin;Dispatcher;UIThread;System.Reactive;Rx.Net</PackageTags>
-    <PackageReleaseNotes>https://github.com/PureWeen/XamarinDispatchScheduler/releases</PackageReleaseNotes> 
+    <PackageReleaseNotes>https://github.com/PureWeen/XamarinDispatchScheduler/releases</PackageReleaseNotes>
+    <PackageId>Xamarin.DispatchScheduler</PackageId>
   </PropertyGroup>
   
   <PropertyGroup>

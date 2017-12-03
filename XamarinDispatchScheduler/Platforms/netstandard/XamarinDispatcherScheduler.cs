@@ -1,14 +1,12 @@
 ﻿
-using System.Reactive.Concurrency;
-using System.Reactive.Disposables;
-using System.Runtime.ExceptionServices;
-using System.Threading; 
+using System;
+using System.Reactive.Concurrency; 
 
-namespace System.Reactive.Concurrency
+namespace Xamarin.DispatchScheduler
 {
     public sealed class XamarinDispatcherScheduler : LocalScheduler, ISchedulerPeriodic
     {
-        public static XamarinDispatcherScheduler Current
+        public static IScheduler Current
         {
             get
             {
