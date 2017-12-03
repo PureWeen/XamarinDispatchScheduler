@@ -101,7 +101,7 @@ Task("Build")
 			 
     };
 
-    build("./XamarinDispatcher.sln");
+    build("./XamarinDispatchScheduler/XamarinDispatchScheduler.csproj");
 });
 
 
