@@ -15,7 +15,6 @@
     <Description>
       Xamarin Cross Platform IScheduler implementation for scheduling onto the main thread. Works with Xamarin.Forms, Xamarin.Android, Xamarin.iOS, and Xamarin.UWP
     </Description>
-    
   </PropertyGroup>
   
   <PropertyGroup>
