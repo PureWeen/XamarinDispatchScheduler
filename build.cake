@@ -52,7 +52,7 @@ var msBuildPath = VSWhereLatest().CombineWithFilePath("./MSBuild/15.0/Bin/MSBuil
 var gitVersion = GitVersion();
 var majorMinorPatch = gitVersion.MajorMinorPatch;
 var informationalVersion = gitVersion.InformationalVersion;
-var nugetVersion = gitVersion.NuGetVersion;
+var nugetVersion = gitVersion.NuGetVersion + "-alpha001";
 var buildVersion = gitVersion.FullBuildMetaData;
 
 // Artifacts
