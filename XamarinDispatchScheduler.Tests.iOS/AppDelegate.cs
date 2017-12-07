@@ -24,6 +24,9 @@ namespace XamarinDispatchScheduler.Tests.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
+#if ENABLE_TEST_CLOUD
+            Xamarin.Calabash.Start ();
+#endif
 
             return base.FinishedLaunching(app, options);
         }
