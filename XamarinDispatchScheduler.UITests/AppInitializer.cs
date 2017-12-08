@@ -14,6 +14,8 @@ namespace XamarinDispatchScheduler.UITests
             {
                 return ConfigureApp
                     .Android
+                    .InstalledApp("com.XamarinDispatchScheduler.XamarinDispatchScheduler")
+                    //.ApkFile("../../../XamarinDispatchScheduler.Tests.Android/bin/Release/com.XamarinDispatchScheduler.XamarinDispatchScheduler.apk")
                     .StartApp();
             }
 

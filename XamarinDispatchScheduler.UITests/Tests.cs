@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -26,9 +27,56 @@ namespace XamarinDispatchScheduler.UITests
         }
 
         [Test]
-        public void AppLaunches()
+        public void WaitForChangeMeToBeSet()
         {
-            app.Screenshot("First screen.");
+
+            app.WaitForElement(x => x.Marked("lblChangeMe"));
+            app.WaitForElement(x => x.Marked("Changed"));
+        }
+
+        [Test]
+        public void SlowlyScheduled()
+        {
+
+            app.WaitForElement(x => x.Marked("lblSlowScheduler"));
+            app.WaitForElement(x => x.Marked("slowly scheduled"));
+        }
+
+
+        [Test]
+        public void TimerSchedule()
+        {
+            app.WaitForElement(x => x.Marked("lblTimer"));
+
+            List<string> matches = new List<string>();
+
+            for (int i= 0; i < 3; i++)
+            {
+                matches.Add(
+                        app.Query("lblTimer")
+                            .First()
+                            .Text
+                    );
+
+                Assert.AreEqual(matches.Count, matches.Distinct().Count());
+                System.Threading.Thread.Sleep(3000);
+            }
+
+
+            app.Tap("btnStop");
+
+            matches.Clear();
+            for (int i = 0; i < 3; i++)
+            {
+                matches.Add(
+                        app.Query("lblTimer")
+                            .First()
+                            .Text
+                    );
+
+                Assert.AreEqual(1, matches.Distinct().Count());
+                System.Threading.Thread.Sleep(3000);
+            }
         }
     }
 }

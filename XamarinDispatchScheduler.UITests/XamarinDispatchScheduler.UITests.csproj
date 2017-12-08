@@ -59,5 +59,19 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XamarinDispatchScheduler.Tests.Android\XamarinDispatchScheduler.Tests.Android.csproj">
+      <Project>{203bc9da-fb13-4c55-803e-f30f450bdaf8}</Project>
+      <Name>XamarinDispatchScheduler.Tests.Android</Name>
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\XamarinDispatchScheduler.Tests.iOS\XamarinDispatchScheduler.Tests.iOS.csproj">
+      <Project>{f88cec7d-6c88-4d16-afde-f3dfb3cbf0df}</Project>
+      <Name>XamarinDispatchScheduler.Tests.iOS</Name>
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,22 +6,26 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
+            <Label 
+                Text="Welcome to Xamarin.Forms!"
                 x:Name="lblChangeMe"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <Label  
-                x:Name="lblException"
+                AutomationId="lblChangeMe"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
             <Label  
                 x:Name="lblTimer"
+                AutomationId="lblTimer"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-            <Button x:Name="btnStop" Text="Stop Timer"></Button>
+
+            <Button 
+                x:Name="btnStop" 
+                AutomationId="btnStop" 
+                Text="Stop Timer"></Button>
 
             <Label  
                 x:Name="lblSlowScheduler"
+                AutomationId="lblSlowScheduler"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
         </StackLayout>
