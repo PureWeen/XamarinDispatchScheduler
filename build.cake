@@ -57,7 +57,7 @@ var buildVersion = gitVersion.FullBuildMetaData;
 
 // Artifacts
 var artifactDirectory = "./artifacts/";
-var packageWhitelist = new[] { "Xam.DispatchScheduler" }; 
+var packageWhitelist = new[] { "Xam.Reactive.DispatchScheduler" }; 
 
 // Macros
 Action Abort = () => { throw new Exception("a non-recoverable fatal error occurred."); };
