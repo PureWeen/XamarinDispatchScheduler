@@ -1,5 +1,5 @@
 ## Xamarin Main Thread Dispatcher
-
+[Nuget](https://www.nuget.org/packages/Xam.Reactive.DispatchScheduler/)
 
 #### Examples
 
