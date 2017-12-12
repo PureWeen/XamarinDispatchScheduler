@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 //https://github.com/xamarin/Xamarin.Forms/blob/d3d59ee4f0b3098457e1debe8d7b03d0d0061a53/Xamarin.Forms.Platform.Android/Forms.cs
-namespace Xam.Reactive.DispatchScheduler
+namespace Xam.Reactive.Concurrency
 {
     public class PlatformImplementation : IPlatformImplementation
     {
@@ -29,6 +29,7 @@ namespace Xam.Reactive.DispatchScheduler
 
         public IDisposable StartTimer(TimeSpan interval, Action callback)
         {
+            
             var handler = getHandler();
             object token = new object();
 

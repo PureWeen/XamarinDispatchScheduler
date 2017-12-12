@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xam.Reactive.DispatchScheduler
+namespace Xam.Reactive.Concurrency
 {
     public interface IPlatformImplementation
     {

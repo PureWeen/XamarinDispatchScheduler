@@ -6,8 +6,8 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xam.Reactive.DispatchScheduler;
 using System.Reactive.Disposables;
+using Xam.Reactive.Concurrency;
 
 namespace XamarinDispatchScheduler.Tests
 {

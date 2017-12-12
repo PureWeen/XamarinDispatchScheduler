@@ -10,7 +10,7 @@
     <PackageReleaseNotes>https://github.com/PureWeen/XamarinDispatchScheduler/releases</PackageReleaseNotes>
     <PackageId>Xam.Reactive.DispatchScheduler</PackageId>
     <Title>
-      Xamarin.DispatchScheduler
+      Xamarin Reactive Dispatch Scheduler
     </Title>
     <Description>
       Xamarin Cross Platform IScheduler implementation for scheduling onto the main thread. Works with Xamarin.Forms, Xamarin.Android, Xamarin.iOS, and Xamarin.UWP

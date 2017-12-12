@@ -8,7 +8,7 @@ using System.Threading;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 
-namespace Xam.Reactive.DispatchScheduler
+namespace Xam.Reactive.Concurrency
 {
     public sealed class XamarinDispatcherScheduler : LocalScheduler, ISchedulerPeriodic
     {
