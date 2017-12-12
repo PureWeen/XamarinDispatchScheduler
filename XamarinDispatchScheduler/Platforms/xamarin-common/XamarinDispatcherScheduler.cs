@@ -3,7 +3,7 @@ using System;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables; 
 
-namespace Xamarin.DispatchScheduler
+namespace Xam.DispatchScheduler
 {
     public sealed class XamarinDispatcherScheduler : LocalScheduler, ISchedulerPeriodic
     {

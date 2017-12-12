@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xamarin.DispatchScheduler
+namespace Xam.DispatchScheduler
 {
     public interface IPlatformImplementation
     {

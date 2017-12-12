@@ -6,7 +6,7 @@ using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Xamarin.DispatchScheduler
+namespace Xam.DispatchScheduler
 {
     //https://github.com/xamarin/Xamarin.Forms/blob/d3d59ee4f0b3098457e1debe8d7b03d0d0061a53/Xamarin.Forms.Platform.iOS/Forms.cs
     public class PlatformImplementation : IPlatformImplementation

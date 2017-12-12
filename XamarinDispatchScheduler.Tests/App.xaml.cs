@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Text;
-using Xamarin.DispatchScheduler;
+using Xam.DispatchScheduler;
 using Xamarin.Forms;
 
 namespace XamarinDispatchScheduler.Tests

@@ -8,40 +8,44 @@ using System.Threading;
 using System.Threading.Tasks;
 
 //https://github.com/xamarin/Xamarin.Forms/blob/d3d59ee4f0b3098457e1debe8d7b03d0d0061a53/Xamarin.Forms.Platform.Android/Forms.cs
-namespace Xamarin.DispatchScheduler
+namespace Xam.DispatchScheduler
 {
     public class PlatformImplementation : IPlatformImplementation
     {
         Handler s_handler;
-        public void BeginInvokeOnMainThread(Action action)
+        Handler getHandler()
         {
             if (s_handler == null || s_handler.Looper != Looper.MainLooper)
             {
                 s_handler = new Handler(Looper.MainLooper);
             }
-
-            s_handler.Post(action);
+            return s_handler;
         }
+
+        public void BeginInvokeOnMainThread(Action action) =>
+            getHandler()
+                .Post(action);
+
 
         public IDisposable StartTimer(TimeSpan interval, Action callback)
         {
-            var handler = new Handler(Looper.MainLooper);
+            var handler = getHandler();
+            object token = new object();
+
             handler.PostDelayed(() =>
             {
-                var t = Interlocked.Exchange(ref handler, null);
+                var t = Interlocked.Exchange(ref token, null);
                 if (t != null)
                 {
                     callback();
                 }
-
-                t?.Dispose();
             },
             (long)interval.TotalMilliseconds);
 
             return
                  Disposable.Create(() =>
                  {
-                     Interlocked.Exchange(ref handler, null)?.Dispose();
+                     Interlocked.Exchange(ref token, null);
                  });
         }
 
@@ -49,7 +53,7 @@ namespace Xamarin.DispatchScheduler
         public IDisposable StartInterval(TimeSpan interval, Action callback)
         {
             SerialDisposable disposable = new SerialDisposable();
-            StartInterval(interval, callback, disposable);
+            StartInterval(interval, callback, disposable, new object());
             return disposable;
         }
 
@@ -59,25 +63,27 @@ namespace Xamarin.DispatchScheduler
         }
 
 
-        static void StartInterval(TimeSpan interval, Action callback, SerialDisposable disposable)
+        void StartInterval(
+            TimeSpan interval, 
+            Action callback, 
+            SerialDisposable disposable,
+            object token)
         {
-            var handler = new Handler(Looper.MainLooper);
-            handler.PostDelayed(() =>
+            getHandler().PostDelayed(() =>
             {
-                var t = Interlocked.Exchange(ref handler, null);
+                var t = Interlocked.Exchange(ref token, null);
                 if (t != null)
                 {
                     callback();
-                    StartInterval(interval, callback, disposable);
+                    StartInterval(interval, callback, disposable, t);
                 }
 
-                t?.Dispose();
             }, (long)interval.TotalMilliseconds);
 
             disposable.Disposable =
                  Disposable.Create(() =>
                  {
-                     Interlocked.Exchange(ref handler, null)?.Dispose();
+                     Interlocked.Exchange(ref token, null);
                  });
         }
 

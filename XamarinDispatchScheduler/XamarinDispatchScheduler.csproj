@@ -18,7 +18,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <TargetFrameworks>uap10.0;Xamarin.iOS10;Xamarin.Mac20;MonoAndroid70;netstandard20</TargetFrameworks>
+    <TargetFrameworks>uap10.0;Xamarin.iOS10;Xamarin.Mac20;MonoAndroid80;netstandard20</TargetFrameworks>
   </PropertyGroup>
 
   
@@ -39,7 +39,7 @@
     <Compile Include="Platforms\netstandard\**\*.cs" />
   </ItemGroup>
   
-  <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid70' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid80' ">
     <Compile Include="Platforms\xamarin-common\**\*.cs" />
     <Compile Include="Platforms\android\**\*.cs" />
   </ItemGroup>

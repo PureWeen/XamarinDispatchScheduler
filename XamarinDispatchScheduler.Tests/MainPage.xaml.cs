@@ -6,7 +6,8 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.DispatchScheduler;
+using Xam.DispatchScheduler;
+using System.Reactive.Disposables;
 
 namespace XamarinDispatchScheduler.Tests
 {
@@ -21,7 +22,7 @@ namespace XamarinDispatchScheduler.Tests
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
+             
             //Create observable from task pool just to ensure scheduler works off main thread
             TaskPoolScheduler.Default.Schedule(() =>
             {
@@ -65,16 +66,18 @@ namespace XamarinDispatchScheduler.Tests
                     })
                     .Dispose();
 
-                XamarinDispatcherScheduler.Current.Schedule(TimeSpan.FromSeconds(5), () =>
-                {
-                    if (!String.IsNullOrWhiteSpace(lblSlowScheduler.Text))
+                XamarinDispatcherScheduler
+                    .Current
+                    .Schedule(TimeSpan.FromSeconds(5), () =>
                     {
-                        throw new Exception("Scheduler ran more than once");
-                    }
+                        if (!String.IsNullOrWhiteSpace(lblSlowScheduler.Text))
+                        {
+                            throw new Exception("Scheduler ran more than once");
+                        }
 
-                    lblSlowScheduler.Text = "slowly scheduled";
-                }
-                );
+                        lblSlowScheduler.Text = "slowly scheduled";
+                    });
+
             });
         }
     }
