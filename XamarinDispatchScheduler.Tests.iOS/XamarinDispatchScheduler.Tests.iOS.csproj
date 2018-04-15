@@ -119,9 +119,9 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="2.5.0.91635" />
+    <PackageReference Include="Xamarin.Forms" Version="3.0.0.354232-pre3" />
     <PackageReference Include="Xamarin.TestCloud.Agent">
-      <Version>0.21.4</Version>
+      <Version>0.21.5</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

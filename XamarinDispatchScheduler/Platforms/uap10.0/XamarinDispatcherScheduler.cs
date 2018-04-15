@@ -59,6 +59,7 @@ namespace Xam.Reactive.Concurrency
         #region singleton
 
         static Lazy<XamarinDispatcherScheduler> _scheduler;
+        static IScheduler _customScheduler;
         static XamarinDispatcherScheduler()
         {
             _scheduler = new Lazy<XamarinDispatcherScheduler>(() => new XamarinDispatcherScheduler(CoreApplication.MainView.CoreWindow.Dispatcher));
@@ -67,12 +68,18 @@ namespace Xam.Reactive.Concurrency
         {
             get
             {
-                return _scheduler.Value;
+                return _customScheduler ?? _scheduler.Value;
+            }
+            set
+            {
+                _customScheduler = value;
             }
         }
 
         public static bool OnMainThread()
         {
+            if (_customScheduler != null) return false;
+
             return
                 _scheduler
                     .Value
