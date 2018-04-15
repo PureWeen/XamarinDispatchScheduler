@@ -13,13 +13,18 @@ public class BasicTest
     [Fact]
     public void Test()
     {
+        bool executed = false;
         TestScheduler scheduler = new TestScheduler();
         XamarinDispatcherScheduler.Current = scheduler;
         XamarinDispatcherScheduler
                    .Current
                    .Schedule( () =>
                    {
-                      
+                       executed = true;
                    });
+
+        Assert.Equal(false, executed);
+        scheduler.AdvanceBy(1000);
+        Assert.Equal(true, executed);
     }
 }
