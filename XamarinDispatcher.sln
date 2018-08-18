@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{272FF237
 		.gitignore = .gitignore
 		build.cake = build.cake
 		build.cmd = build.cmd
+		global.json = global.json
 		Nuget.md = Nuget.md
 		Readme.md = Readme.md
 	EndProjectSection
@@ -28,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinDispatchScheduler.UI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinDispatchScheduler.Tests.WPF", "XamarinDispatchScheduler.Tests.WPF\XamarinDispatchScheduler.Tests.WPF.csproj", "{5D680814-936A-4E2F-A576-AF186411FFEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinDispatchScheduler.xUnit", "XamarinDispatchScheduler.xUnit\XamarinDispatchScheduler.xUnit.csproj", "{9E85A1E6-ED3C-4D57-9DAE-0DB491F2DEE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamarinDispatchScheduler.xUnit", "XamarinDispatchScheduler.xUnit\XamarinDispatchScheduler.xUnit.csproj", "{9E85A1E6-ED3C-4D57-9DAE-0DB491F2DEE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

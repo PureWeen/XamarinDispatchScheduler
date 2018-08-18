@@ -2,20 +2,20 @@
 // ADDINS
 //////////////////////////////////////////////////////////////////////
 
-#addin "nuget:?package=Cake.FileHelpers&version=1.0.4"
-#addin "nuget:?package=Cake.Coveralls&version=0.4.0"
-#addin "nuget:?package=Cake.PinNuGetDependency&version=0.1.0.1495792899"
+#addin "nuget:?package=Cake.FileHelpers&version=2.0.0"
+#addin "nuget:?package=Cake.Coveralls&version=0.8.0"
+#addin "nuget:?package=Cake.PinNuGetDependency&version=3.0.1"
 
 //////////////////////////////////////////////////////////////////////
 // TOOLS
 //////////////////////////////////////////////////////////////////////
 
-#tool "nuget:?package=GitReleaseManager&version=0.6.0"
- #tool "nuget:?package=GitVersion.CommandLine&version=3.6.5"
- #tool "nuget:?package=coveralls.io&version=1.3.4"
- #tool "nuget:?package=OpenCover&version=4.6.519"
- #tool "nuget:?package=ReportGenerator&version=2.5.11"
- #tool "nuget:?package=vswhere&version=2.1.4"
+#tool "nuget:?package=GitReleaseManager&version=0.7.0"
+#tool "nuget:?package=coveralls.io&version=1.4.2"
+#tool "nuget:?package=OpenCover&version=4.6.519"
+#tool "nuget:?package=ReportGenerator&version=3.1.2"
+#tool "nuget:?package=vswhere&version=2.4.1"
+#tool "nuget:?package=xunit.runner.console&version=2.4.0-beta.2.build3984"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -49,11 +49,8 @@ var msBuildPath = VSWhereLatest().CombineWithFilePath("./MSBuild/15.0/Bin/MSBuil
 
 
 // Version
-var gitVersion = GitVersion();
-var majorMinorPatch = gitVersion.MajorMinorPatch;
-var informationalVersion = gitVersion.InformationalVersion;
-var nugetVersion = gitVersion.NuGetVersion;
-var buildVersion = gitVersion.FullBuildMetaData;
+var informationalVersion = EnvironmentVariable("GitAssemblyInformationalVersion");
+
 
 // Artifacts
 var artifactDirectory = "./artifacts/";
@@ -67,8 +64,8 @@ Action Abort = () => { throw new Exception("a non-recoverable fatal error occurr
 ///////////////////////////////////////////////////////////////////////////////
 Setup((context) =>
 {
-    Information("Building version {0} of XamarinDispatchScheduler. (isTagged: {1}) Nuget Version {2}", informationalVersion, isTagged, nugetVersion);
-    CreateDirectory(artifactDirectory);
+	Information("Building version {0} of XamarinDispatchScheduler.", informationalVersion);
+	CreateDirectory(artifactDirectory);
 });
 
 Teardown((context) =>
@@ -89,13 +86,10 @@ Task("Build")
         MSBuild(solution, new MSBuildSettings() {
                 ToolPath= msBuildPath
             }
-            .WithTarget("restore;build;pack")
-            .WithProperty("PackageOutputPath",  MakeAbsolute(Directory(artifactDirectory)).ToString())
+            .WithTarget("build;pack")
+             .WithProperty("PackageOutputPath",  MakeAbsolute(Directory(artifactDirectory)).ToString().Quote())
             .WithProperty("TreatWarningsAsErrors", treatWarningsAsErrors.ToString())
-            .SetConfiguration("Release")          
-            // Due to https://github.com/NuGet/Home/issues/4790 and https://github.com/NuGet/Home/issues/4337 we
-            // have to pass a version explicitly
-            .WithProperty("Version", nugetVersion.ToString())
+            .SetConfiguration("Release")
             .SetVerbosity(Verbosity.Minimal)
             .SetNodeReuse(false));
 			 
@@ -117,18 +111,18 @@ Task("Package")
 Task("PinNuGetDependencies")
     .Does (() =>
 {
-    // only pin whitelisted packages.
-    foreach(var package in packageWhitelist)
+	 var packages = GetFiles(artifactDirectory + "*.nupkg");
+    foreach(var package in packages)
     {
-        // only pin the package which was created during this build run.
-        var packagePath = artifactDirectory + File(string.Concat(package, ".", nugetVersion, ".nupkg"));
-
-        // see https://github.com/cake-contrib/Cake.PinNuGetDependency
-        PinNuGetDependency(packagePath, "XamarinDispatchScheduler");
+        // only pin whitelisted packages.
+        if(packageWhitelist.Any(p => package.GetFilename().ToString().StartsWith(p, StringComparison.OrdinalIgnoreCase)))
+       
+			// see https://github.com/cake-contrib/Cake.PinNuGetDependency
+			PinNuGetDependency(package, "XamarinDispatchScheduler");
     }
 });
 
-Task("PublishPackages")
+/*Task("PublishPackages")
     .IsDependentOn("Package")
     .WithCriteria(() => !local)
     .WithCriteria(() => isDevelopBranch || isReleaseBranch)
@@ -165,8 +159,8 @@ Task("PublishPackages")
             ApiKey = apiKey
         });
     }
-});
-
+});*/
+/*
 Task("CreateRelease")
     .IsDependentOn("Package")
     .WithCriteria(() => !local)
@@ -227,16 +221,17 @@ Task("PublishRelease")
     }
 
     GitReleaseManagerClose(username, token, githubOwner, githubRepository, majorMinorPatch);
-});
+});*/
 
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    .IsDependentOn("CreateRelease")
-    .IsDependentOn("PublishPackages")
-    .IsDependentOn("PublishRelease")
+    .IsDependentOn("Package")
+   // .IsDependentOn("CreateRelease")
+   // .IsDependentOn("PublishPackages")
+  //  .IsDependentOn("PublishRelease")
     .Does (() =>
 {
 
