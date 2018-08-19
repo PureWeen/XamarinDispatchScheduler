@@ -15,7 +15,7 @@ public class BasicTest
     {
         bool executed = false;
         TestScheduler scheduler = new TestScheduler();
-        XamarinDispatcherScheduler.Current = scheduler;
+        XamarinDispatcherScheduler.Current = (IScheduler)scheduler;
         XamarinDispatcherScheduler
                    .Current
                    .Schedule( () =>
