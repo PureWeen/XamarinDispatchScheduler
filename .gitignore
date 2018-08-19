@@ -249,6 +249,7 @@ paket-files/
 # FAKE - F# Make
 .fake/
 
+
 # JetBrains Rider
 .idea/
 *.sln.iml
@@ -266,7 +267,7 @@ XamarinDispatchScheduler.Tests.Android/t/
 
 #build Tools
 /tools/*
-!/tools/Cake
-!/tools/Cake/*
-!/tools/nuget
-!/tools/nuget/*
+tools/
+
+# Fody Weavers (for tests)
+src/Tools/
