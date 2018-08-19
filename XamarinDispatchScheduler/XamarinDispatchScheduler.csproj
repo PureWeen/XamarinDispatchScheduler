@@ -8,6 +8,13 @@
     <Owners>shaneneuville</Owners>
     <PackageTags>Xamarin;Dispatcher;UIThread;System.Reactive;Rx.Net;Rx;Reactive</PackageTags>
     <PackageReleaseNotes>https://github.com/PureWeen/XamarinDispatchScheduler/releases</PackageReleaseNotes>
+    
+    <RepositoryUrl>https://github.com/PureWeen/XamarinDispatchScheduler</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <NoWarn>$(NoWarn);1591;1701;1702;1705</NoWarn>
+    <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
+    
     <PackageId>Xam.Reactive.DispatchScheduler</PackageId>
     <Title>
       Xamarin Reactive Dispatch Scheduler
@@ -41,21 +48,29 @@
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
     <Compile Include="Platforms\netstandard\**\*.cs" />
+    <PackageReference Include="System.ComponentModel" Version="4.3.0" />
+    <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
+    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <Compile Include="Platforms\xamarin-common\**\*.cs" />
     <Compile Include="Platforms\android\**\*.cs" />
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
     <Compile Include="Platforms\xamarin-common\**\*.cs" />
     <Compile Include="Platforms\apple-common\**\*.cs" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="netstandard" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <Compile Include="Platforms\xamarin-common\**\*.cs" />
     <Compile Include="Platforms\apple-common\**\*.cs" />
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('uap')) ">
@@ -65,6 +80,7 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) ">
     <Compile Include="Platforms\net45\**\*.cs" />
     <Reference Include="PresentationFramework" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
   
 </Project>

@@ -84,7 +84,8 @@ Task("Build")
 
 
         MSBuild(solution, new MSBuildSettings() {
-                ToolPath= msBuildPath
+                ToolPath= msBuildPath,
+                ArgumentCustomization = args => args.Append("/m /restore")
             }
             .WithTarget("build;pack")
              .WithProperty("PackageOutputPath",  MakeAbsolute(Directory(artifactDirectory)).ToString().Quote())
