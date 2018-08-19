@@ -54,7 +54,24 @@ namespace XamarinDispatchScheduler.Tests
                             lblTimer.Text = DateTime.Now.TimeOfDay.ToString();
                         });
 
-                btnStop.Clicked += (_, __) => periodic.Dispose();
+				btnStart.Clicked += (_, __) =>
+				{
+					periodic?.Dispose();
+					periodic =
+						XamarinDispatcherScheduler
+							.Current
+							.SchedulePeriodic(TimeSpan.FromSeconds(2),
+							() =>
+							{
+								lblTimer.Text = DateTime.Now.TimeOfDay.ToString();
+							});
+				};
+				
+
+				btnStop.Clicked += (_, __) =>
+				{
+					periodic.Dispose();
+				};
 
                 //test cancellation
                 Observable

@@ -18,7 +18,12 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
 
-            <Button 
+			<Button 
+                x:Name="btnStart" 
+                AutomationId="btnStart" 
+                Text="Start New Timer"></Button>
+			
+			<Button 
                 x:Name="btnStop" 
                 AutomationId="btnStop" 
                 Text="Stop Timer"></Button>
